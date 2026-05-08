@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나고야 여행 플랜 🇯🇵</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f2;
+  --white: #ffffff;
+  --surface: #f0efe9;
+  --border: #e4e2da;
+  --border2: #d0cec4;
+  --text: #1a1916;
+  --muted: #7a7870;
+  --accent: #b8860b;
+  --accent-bg: #fdf3d8;
+  --accent-border: #e8c97a;
+  --teal: #0f6e56;
+  --teal-bg: #e8f5f0;
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --green: #2d7a4f;
+  --green-bg: #eaf5ee;
+  --blue: #1a5fa8;
+  --blue-bg: #e8f1fb;
+  --gray-bg: #f0efe9;
+  --orange: #b85c0b;
+  --orange-bg: #fef0e6;
+  --done-bg: #eceae2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  padding-bottom: 130px;
+}
+
+/* HERO */
+.hero {
+  position: relative; padding: 52px 20px 32px;
+  overflow: hidden; background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: '名古屋'; position: absolute; top: -8px; right: -8px;
+  font-size: 110px; font-family: serif; color: rgba(184,134,11,0.06);
+  line-height: 1; pointer-events: none; letter-spacing: -4px;
+}
+.hero-label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+.hero-title { font-family: 'DM Serif Display', serif; font-size: 36px; line-height: 1.1; color: var(--text); margin-bottom: 6px; }
+.hero-title em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+.flights { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.flight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 13px 14px; }
+.flight-dir { font-size: 10px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 5px; font-weight: 500; }
+.flight-route { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
+.flight-detail { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* HOTEL */
+.hotel-strip {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 11px 15px; margin: 10px 20px 0;
+}
+.hotel-icon { width: 34px; height: 34px; background: var(--accent-bg); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+.hotel-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.hotel-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* PROGRESS */
+.progress-wrap { padding: 16px 20px 0; }
+.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.progress-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.progress-count { font-size: 12px; color: var(--accent); font-weight: 700; }
+.progress-bar { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+
+/* TABS */
+.tabs-wrap {
+  padding: 16px 20px 14px; position: sticky; top: 0; z-index: 100;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.tabs { display: flex; gap: 7px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0; padding: 8px 15px; border-radius: 99px;
+  border: 1px solid var(--border2); background: var(--white);
+  color: var(--muted); font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.tab.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+.tab-cnt { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 99px; margin-left: 3px; background: var(--accent-bg); color: var(--accent); }
+.tab.active .tab-cnt { background: rgba(255,255,255,0.25); color: #fff; }
+
+/* PANELS */
+.panel { display: none; padding: 0 20px; }
+.panel.show { display: block; }
+
+.day-heading { margin-bottom: 18px; }
+.day-date { font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; font-weight: 500; margin-bottom: 4px; }
+.day-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); line-height: 1.2; }
+.day-title em { font-style: italic; color: var(--teal); }
+
+/* ALERTS */
+.alert { background: var(--red-bg); border: 1px solid rgba(192,57,43,0.2); border-radius: 12px; padding: 13px 15px; margin-bottom: 14px; font-size: 13px; line-height: 1.6; color: var(--red); }
+.alert strong { color: #8b1a10; font-weight: 700; }
+.alert-info { background: var(--teal-bg); border-color: rgba(15,110,86,0.2); color: var(--teal); }
+.alert-info strong { color: #084d3b; }
+.alert-warn { background: var(--accent-bg); border-color: rgba(184,134,11,0.25); color: #7a5a00; }
+.alert-warn strong { color: #5a3f00; }
+
+/* TIMELINE */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 14px; position: relative; }
+.tl-item:not(:last-child) .tl-line::after {
+  content: ''; position: absolute; left: 50%; top: 26px; bottom: -10px;
+  width: 1px; background: var(--border); transform: translateX(-50%);
+}
+.tl-left { flex-shrink: 0; width: 38px; display: flex; flex-direction: column; align-items: center; padding-top: 2px; }
+.tl-line { position: relative; display: flex; flex-direction: column; align-items: center; }
+.tl-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+  border: 1.5px solid; background: var(--white);
+  position: relative; z-index: 1; transition: opacity 0.3s;
+}
+.dot-sight { border-color: var(--teal); color: var(--teal); }
+.dot-food  { border-color: var(--green); color: var(--green); }
+.dot-move  { border-color: var(--muted); color: var(--muted); }
+.dot-shop  { border-color: var(--orange); color: var(--orange); }
+.dot-key   { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.dot-alert { border-color: var(--red); color: var(--red); }
+.tl-item.done-item .tl-dot { opacity: 0.3; }
+
+.tl-body { flex: 1; padding-bottom: 16px; }
+.tl-time { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+
+/* CARD + CHECK */
+.tl-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 13px 14px;
+  cursor: pointer; transition: background 0.25s, border-color 0.25s;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.tl-card:active { transform: scale(0.985); }
+.tl-card.hl { border-color: var(--accent-border); border-width: 1.5px; background: var(--accent-bg); }
+.check-row { display: flex; align-items: flex-start; gap: 10px; }
+.chk {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px;
+  border: 1.5px solid var(--border2); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: transparent; transition: all 0.2s; margin-top: 1px;
+}
+.cc { flex: 1; }
+
+/* DONE STATE */
+.tl-card.done { background: var(--done-bg); border-color: var(--border); }
+.tl-card.done.hl { background: var(--done-bg); border-color: var(--border); }
+.tl-card.done .chk { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tl-card.done .tl-place { text-decoration: line-through; color: var(--muted); }
+.tl-card.done .tl-desc { opacity: 0.45; }
+.tl-card.done .tl-tags { opacity: 0.35; }
+
+.tl-place { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 5px; line-height: 1.35; transition: color 0.25s; }
+.tl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; transition: opacity 0.25s; }
+.tl-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; transition: opacity 0.25s; }
+.tag { font-size: 11px; padding: 2px 9px; border-radius: 99px; font-weight: 500; }
+.tag-yellow { background: var(--accent-bg); color: var(--accent); }
+.tag-teal   { background: var(--teal-bg); color: var(--teal); }
+.tag-red    { background: var(--red-bg); color: var(--red); }
+.tag-green  { background: var(--green-bg); color: var(--green); }
+.tag-gray   { background: var(--gray-bg); color: var(--muted); border: 1px solid var(--border); }
+.tag-orange { background: var(--orange-bg); color: var(--orange); }
+.tag-star   { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+
+/* SUMMARY */
+.sect-divider { height: 1px; background: var(--border); margin: 22px 0 18px; }
+.summary-section { margin-bottom: 10px; }
+.summary-title { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; font-weight: 500; margin-bottom: 12px; }
+.chip-grid { display: flex; flex-direction: column; gap: 8px; }
+.chip-row { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 11px 13px; }
+.chip-emoji { font-size: 17px; flex-shrink: 0; padding-top: 1px; }
+.chip-label { font-size: 12px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
+.chip-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.tip-box { background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
+.tip-box p { font-size: 13px; color: #7a5a00; line-height: 1.6; }
+.tip-box strong { color: #5a3f00; font-weight: 500; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border); padding: 10px 16px 20px;
+  display: flex; gap: 6px; z-index: 200;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.bottom-nav::-webkit-scrollbar { display: none; }
+.bnav-btn {
+  flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 9px 13px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--white); cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.2s; min-width: 72px;
+}
+.bnav-btn.active { background: var(--accent-bg); border-color: var(--accent-border); }
+.bnav-day { font-size: 10px; color: var(--muted); font-weight: 500; }
+.bnav-btn.active .bnav-day { color: var(--accent); }
+.bnav-label { font-size: 12px; color: var(--text); white-space: nowrap; font-weight: 400; }
+
+@media (min-width: 480px) { .hero-title { font-size: 46px; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">✈ Japan Travel Plan</div>
+  <h1 class="hero-title"><em>Nagoya</em><br>여행 플랜</h1>
+  <div class="hero-sub">2026 · 5/15(금) — 5/18(월) · 4일 3박</div>
+  <div class="flights">
+    <div class="flight-card">
+      <div class="flight-dir">↗ 가는 편</div>
+      <div class="flight-route">OZ124<br>인천T2 16:10<br>나고야 18:00</div>
+      <div class="flight-detail">5/15 금 · 이코노미</div>
+    </div>
+    <div class="flight-card">
+      <div class="flight-dir">↙ 오는 편</div>
+      <div class="flight-route">OZ123<br>나고야 19:10<br>인천T2 21:10</div>
+      <div class="flight-detail">5/18 월 · 이코노미</div>
+    </div>
+  </div>
+</div>
+
+<div class="hotel-strip">
+  <div class="hotel-icon">🏨</div>
+  <div>
+    <div class="hotel-name">니시테츠호텔 크룸 나고야</div>
+    <div class="hotel-sub">나고야 니시키3초메 · 사카에 도보권 · ★4.4</div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-header">
+    <span class="progress-label">전체 진행률</span>
+    <span class="progress-count" id="prog-count">0 / 0 완료</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="show('d1',this,0)">5/15 금 <span class="tab-cnt" id="tc0"></span></button>
+    <button class="tab" onclick="show('d2',this,1)">5/16 토 <span class="tab-cnt" id="tc1"></span></button>
+    <button class="tab" onclick="show('d3',this,2)">5/17 일 <span class="tab-cnt" id="tc2"></span></button>
+    <button class="tab" onclick="show('d4',this,3)">5/18 월 <span class="tab-cnt" id="tc3"></span></button>
+  </div>
+</div>
+
+<!-- D1 -->
+<div id="d1" class="panel show">
+<div style="height:20px"></div>
+<div class="day-heading">
+  <div class="day-date">Day 1 · 5월 15일 금요일</div>
+  <div class="day-title">도착 &amp; <em>첫 저녁</em></div>
+</div>
+<div class="alert alert-info"><strong>⏱ 공항→호텔 예상</strong><br>도착 18:00 → 수하물 30~40분 → 메이테츠 28분 → 나고야역 19:10 → 호텔 도보 10분 → 19:25 체크인</div>
+<div class="timeline">
+
+<div class="tl-item" id="wi-d1-0"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-alert">✈</div></div></div><div class="tl-body"><div class="tl-time">18:00</div>
+<div class="tl-card" onclick="toggle('d1-0')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">츄부국제공항 도착</div>
+  <div class="tl-desc">입국심사 + 수하물 수취. 이코노미 짐 찾는 시간 30~40분 예상</div>
+  <div class="tl-tags"><span class="tag tag-gray">짐 수취 30~40분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d1-1"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-move">→</div></div></div><div class="tl-body"><div class="tl-time">18:40</div>
+<div class="tl-card" onclick="toggle('d1-1')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">공항 → 나고야역 → 호텔 체크인</div>
+  <div class="tl-desc">메이테츠 특급 28분 / 870엔 → 나고야역 하차 → 니시키3초메 호텔 도보 10분</div>
+  <div class="tl-tags"><span class="tag tag-gray">메이테츠 870엔</span><span class="tag tag-gray">약 40분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d1-2"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">★</div></div></div><div class="tl-body"><div class="tl-time">20:00</div>
+<div class="tl-card" onclick="toggle('d1-2')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">오아시스21 + 미라이타워 야경</div>
+  <div class="tl-desc">호텔에서 도보 8분. 유리 우주선 구조물 + TV타워 라이트업. 무료 입장. 밤이 가장 예뻐요 🌙</div>
+  <div class="tl-tags"><span class="tag tag-teal">무료입장</span><span class="tag tag-gray">도보 8분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d1-3"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-food">食</div></div></div><div class="tl-body"><div class="tl-time">20:30</div>
+<div class="tl-card" onclick="toggle('d1-3')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">야바톤 야바쵸 본점 🐷</div>
+  <div class="tl-desc">미소 카츠 원조 맛집. 오아시스21에서 도보 5분. 21:00까지 입장 가능. 나고야 첫 밥!</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 저장목록</span><span class="tag tag-green">나고야메시</span><span class="tag tag-gray">1,000~2,000엔</span></div>
+</div></div></div></div></div>
+
+</div></div>
+
+<!-- D2 -->
+<div id="d2" class="panel">
+<div style="height:20px"></div>
+<div class="day-heading">
+  <div class="day-date">Day 2 · 5월 16일 토요일</div>
+  <div class="day-title">나고야성 + <em>오스 + 사카에</em></div>
+</div>
+<div class="alert"><strong>⚠ 히쓰마부시 하나오카 — 웨이팅!</strong><br>오픈 전(10:30) 현장 웨이팅 등록. 토요일 2~3시간 대기. <strong>현금만 가능 — 1인 5,000엔 준비!</strong></div>
+<div class="timeline">
+
+<div class="tl-item" id="wi-d2-0"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-key">!</div></div></div><div class="tl-body"><div class="tl-time">10:30 — 먼저!</div>
+<div class="tl-card hl" onclick="toggle('d2-0')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">히쓰마부시 하나오카 — 웨이팅 등록</div>
+  <div class="tl-desc">사카에 선리츠빌 2F. 호텔 도보 5분. 이름 올리고 대기 확인 후 나고야성으로 출발!</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 저장목록 ★4.7</span><span class="tag tag-red">현금만!</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d2-1"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">★</div></div></div><div class="tl-body"><div class="tl-time">11:00</div>
+<div class="tl-card" onclick="toggle('d2-1')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">나고야성 🏯</div>
+  <div class="tl-desc">메이조선 시야쿠쇼역 도보 5분. 금빛 샤치호코 + 혼마루 어전. 약 1.5~2시간</div>
+  <div class="tl-tags"><span class="tag tag-teal">입장 500엔</span><span class="tag tag-gray">지하철 5분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d2-2"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-food">食</div></div></div><div class="tl-body"><div class="tl-time">13:00~14:00</div>
+<div class="tl-card" onclick="toggle('d2-2')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">히쓰마부시 하나오카 🍱</div>
+  <div class="tl-desc">대기 순서 맞춰 복귀! 장어덮밥 나고야 최고 맛집. 현금 준비 필수!</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 저장목록 ★4.7</span><span class="tag tag-red">현금 5,000엔/인</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d2-3"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-shop">¥</div></div></div><div class="tl-body"><div class="tl-time">15:00</div>
+<div class="tl-card" onclick="toggle('d2-3')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">오스 상점가 — Kapital</div>
+  <div class="tl-desc">Kapital 오스 상점가 안 위치 (11:00~20:00). 빈티지숍 + 길거리음식 구경</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ Kapital ★4.7</span><span class="tag tag-orange">오스칸논역</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d2-4"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-shop">¥</div></div></div><div class="tl-body"><div class="tl-time">17:00</div>
+<div class="tl-card" onclick="toggle('d2-4')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">사카에 쇼핑 블록 🛍</div>
+  <div class="tl-desc">나고야 파르코 → 포켓몬센터(파르코 동관2F) → 빔즈(라시크 2F) → 베이프(19시 마감!) → 몽벨. 다 한 블록!</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 파르코·포켓몬·빔즈·베이프·몽벨</span><span class="tag tag-red">베이프 19시 마감!</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d2-5"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-food">食</div></div></div><div class="tl-body"><div class="tl-time">19:30</div>
+<div class="tl-card" onclick="toggle('d2-5')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">저녁 — 쿠라스시 or 스시로 사카에점</div>
+  <div class="tl-desc">쇼핑 후 가벼운 회전초밥. 쿠라스시 or 스시로(★4.4) 둘 다 사카에에 있어요</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 저장목록</span><span class="tag tag-green">1,000~2,000엔</span></div>
+</div></div></div></div></div>
+
+</div></div>
+
+<!-- D3 -->
+<div id="d3" class="panel">
+<div style="height:20px"></div>
+<div class="day-heading">
+  <div class="day-date">Day 3 · 5월 17일 일요일</div>
+  <div class="day-title">나고야항 <em>수족관 데이</em></div>
+</div>
+<div class="alert"><strong>⚠ 수족관 사전예약 필수!</strong><br>일요일은 현장 구매 불가. → <a href="https://www.asoview.com" style="color:var(--red);">asoview.com</a> 또는 마이리얼트립 · 성인 2,030엔</div>
+<div class="alert alert-warn"><strong>✨ 오픈런 추천!</strong><br>09:30 입장 → 돌고래쇼 + 벨루가 + 범고래 + 펭귄 먹이 알뜰하게 다 볼 수 있어요!</div>
+<div class="timeline">
+
+<div class="tl-item" id="wi-d3-0"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-move">→</div></div></div><div class="tl-body"><div class="tl-time">09:20</div>
+<div class="tl-card" onclick="toggle('d3-0')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">나고야역 → 나고야코역 → 입장</div>
+  <div class="tl-desc">히가시야마선 → 사카에에서 메이조선 환승 → 나고야코역 도보 5~8분. 예약 QR 스캔!</div>
+  <div class="tl-tags"><span class="tag tag-gray">지하철 25~30분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-1"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">북</div></div></div><div class="tl-body"><div class="tl-time">09:30</div>
+<div class="tl-card" onclick="toggle('d3-1')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">북관 자유 관람 — 범고래·벨루가 수조</div>
+  <div class="tl-desc">쇼 전 여유시간에 대수조 먼저 구경. 범고래·벨루가 유영 모습 바로 볼 수 있어요</div>
+  <div class="tl-tags"><span class="tag tag-teal">북관</span><span class="tag tag-gray">약 50분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-2"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">북</div></div></div><div class="tl-body"><div class="tl-time">10:30</div>
+<div class="tl-card" onclick="toggle('d3-2')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">돌고래 퍼포먼스 BLUE ECHO 🐬</div>
+  <div class="tl-desc">북관 3F 스타디움 · 20분. 10:10부터 자리 잡기 추천!</div>
+  <div class="tl-tags"><span class="tag tag-teal">북관 3F</span><span class="tag tag-gray">20분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-3"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">북</div></div></div><div class="tl-body"><div class="tl-time">11:00</div>
+<div class="tl-card" onclick="toggle('d3-3')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">벨루가 트레이닝 🤍</div>
+  <div class="tl-desc">북관 3F 오로라의 바다 · 10분. 흰 고래를 바로 코앞에서!</div>
+  <div class="tl-tags"><span class="tag tag-teal">북관 3F</span><span class="tag tag-gray">10분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-4"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">북</div></div></div><div class="tl-body"><div class="tl-time">11:30</div>
+<div class="tl-card" onclick="toggle('d3-4')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">범고래 공개 훈련 🐋</div>
+  <div class="tl-desc">북관 3F 스타디움 · 15분. 일본에서 범고래 볼 수 있는 곳이 여기 거의 유일!</div>
+  <div class="tl-tags"><span class="tag tag-teal">북관 3F</span><span class="tag tag-gray">15분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-5"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-move">→</div></div></div><div class="tl-body"><div class="tl-time">11:50</div>
+<div class="tl-card" onclick="toggle('d3-5')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">남관으로 이동 — 12:15 자리 잡기!</div>
+  <div class="tl-desc">정어리 토네이도·적도 수조 훑어보면서 남관 3F 펭귄 코너로 이동. 12:15엔 꼭 자리!</div>
+  <div class="tl-tags"><span class="tag tag-gray">이동 10~15분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-6"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-key">★</div></div></div><div class="tl-body"><div class="tl-time">12:30</div>
+<div class="tl-card hl" onclick="toggle('d3-6')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">⭐ 펭귄 먹이 주는 시간! 🐧</div>
+  <div class="tl-desc">남관 3F 남극의 바다 · 10분. 펭귄들이 줄 서서 받아먹는 거 엄청 귀여워요!</div>
+  <div class="tl-tags"><span class="tag tag-star">필수 목표!</span><span class="tag tag-yellow">남관 3F</span><span class="tag tag-gray">10분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-7"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-food">食</div></div></div><div class="tl-body"><div class="tl-time">12:50</div>
+<div class="tl-card" onclick="toggle('d3-7')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">점심 — 수족관 내 레스토랑</div>
+  <div class="tl-desc">가든 부두 or 수족관 내 식당. 펭귄 끝나자마자 바로 이동하면 줄 짧아요!</div>
+  <div class="tl-tags"><span class="tag tag-green">점심</span><span class="tag tag-gray">약 1시간</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-8"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">남</div></div></div><div class="tl-body"><div class="tl-time">14:00</div>
+<div class="tl-card" onclick="toggle('d3-8')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">남관 자유 관람 + 정어리 토네이도 🌀</div>
+  <div class="tl-desc">심해·적도 수조 여유있게 구경. 14:30 정어리 토네이도(남관 2F · 5분) 꼭 보기!</div>
+  <div class="tl-tags"><span class="tag tag-yellow">남관</span><span class="tag tag-gray">약 2시간</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-9"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-sight">★</div></div></div><div class="tl-body"><div class="tl-time">15:30 (선택)</div>
+<div class="tl-card" onclick="toggle('d3-9')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">남극 관측선 후지 🚢</div>
+  <div class="tl-desc">수족관 바로 옆 실제 남극 관측선 견학. 통합권(2,440엔)이 단품보다 이득</div>
+  <div class="tl-tags"><span class="tag tag-teal">선택 코스</span><span class="tag tag-gray">통합권 2,440엔</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-10"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-move">→</div></div></div><div class="tl-body"><div class="tl-time">16:30</div>
+<div class="tl-card" onclick="toggle('d3-10')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">퇴장 → 나고야역 귀환 + 기념품 정리</div>
+  <div class="tl-desc">나고야코역 → 지하철 25~30분. 에스카·테르미나 지하상가. 내일 귀국이라 기념품 마무리!</div>
+  <div class="tl-tags"><span class="tag tag-gray">지하철 25~30분</span><span class="tag tag-orange">에키나카 쇼핑</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d3-11"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-food">食</div></div></div><div class="tl-body"><div class="tl-time">18:30</div>
+<div class="tl-card" onclick="toggle('d3-11')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">저녁 — 히쓰마부시 하나오카 저녁 타임</div>
+  <div class="tl-desc">저녁(18:00~22:00)이 웨이팅 조금 짧아요. 어제 못 갔다면 오늘 도전! 또는 스시로 사카에점</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 저장목록</span><span class="tag tag-red">현금 5,000엔/인</span></div>
+</div></div></div></div></div>
+
+</div>
+<div class="sect-divider"></div>
+<div class="summary-section">
+  <div class="summary-title">🎬 쇼 타임표 (5/17 일요일)</div>
+  <div class="chip-grid">
+    <div class="chip-row"><div class="chip-emoji">🐬</div><div><div class="chip-label">돌고래 퍼포먼스 · 북관 3F · 20분</div><div class="chip-val" style="font-size:12px;"><span style="background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;">10:30 ✓</span><span style="color:var(--muted)">12:30 · 14:30 · 16:00</span></div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🐋</div><div><div class="chip-label">범고래 공개 훈련 · 북관 3F · 15분</div><div class="chip-val" style="font-size:12px;"><span style="background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;">11:30 ✓</span><span style="color:var(--muted)">13:30 · 15:30</span></div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🤍</div><div><div class="chip-label">벨루가 트레이닝 · 북관 3F · 10분</div><div class="chip-val" style="font-size:12px;"><span style="background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;">10:30 ✓</span><span style="color:var(--muted)">12:30 · 16:00</span></div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🐧</div><div><div class="chip-label">펭귄 먹이 ⭐ · 남관 3F · 10분</div><div class="chip-val" style="font-size:12px;"><span style="background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;">12:30 ✓</span><span style="color:var(--muted)">16:00</span></div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🌀</div><div><div class="chip-label">정어리 토네이도 · 남관 2F · 5분</div><div class="chip-val" style="font-size:12px;"><span style="color:var(--muted)">12:30 · </span><span style="background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin:0 4px;font-weight:700;">14:30 ✓</span><span style="color:var(--muted)">16:00</span></div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🐢</div><div><div class="chip-label">바다거북 먹이 · 남관 3F · 10분</div><div class="chip-val" style="font-size:12px;color:var(--muted)">13:30</div></div></div>
+  </div>
+  <div class="tip-box"><p><strong>동선 포인트</strong><br>북관 오전 몰아보기 → 점심 → 남관 이동. 층 이동 최소화! 펭귄 먹이 12:30이 오전 쇼들이랑 자연스럽게 연결돼요.</p></div>
+</div>
+</div>
+
+<!-- D4 -->
+<div id="d4" class="panel">
+<div style="height:20px"></div>
+<div class="day-heading">
+  <div class="day-date">Day 4 · 5월 18일 월요일</div>
+  <div class="day-title">마지막 아침 + <em>귀국</em></div>
+</div>
+<div class="alert"><strong>⚠ 멘야하나비 타카바타 본점 — 월요일 휴무!</strong><br>사카에 지점 이용하거나 나고야역 지하 미소라멘으로 대체</div>
+<div class="alert alert-info"><strong>✈ 공항 이동 계산</strong><br>나고야역 15:00 출발 → 메이테츠 28분 → 공항 15:30 → 체크인+보안 3.5시간 확보</div>
+<div class="timeline">
+
+<div class="tl-item" id="wi-d4-0"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-shop">¥</div></div></div><div class="tl-body"><div class="tl-time">09:00 ~ 12:00</div>
+<div class="tl-card" onclick="toggle('d4-0')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">나고야역 에키나카 마지막 쇼핑</div>
+  <div class="tl-desc">테르미나·에스카 지하상가. 과자·기념품 마무리. 체크아웃 후 짐 프론트에 맡기기</div>
+  <div class="tl-tags"><span class="tag tag-orange">기념품 마무리</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d4-1"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-food">食</div></div></div><div class="tl-body"><div class="tl-time">12:30</div>
+<div class="tl-card" onclick="toggle('d4-1')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">점심 — 멘야하나비 사카에점 🍜</div>
+  <div class="tl-desc">타카바타 본점은 월요일 휴무라 사카에 지점으로! 나고야 명물 마제소바. 귀국날 마지막 나고야메시</div>
+  <div class="tl-tags"><span class="tag tag-star">⭐ 저장목록</span><span class="tag tag-green">1,000~2,000엔</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d4-2"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-move">→</div></div></div><div class="tl-body"><div class="tl-time">14:30</div>
+<div class="tl-card" onclick="toggle('d4-2')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">호텔 짐 픽업 → 나고야역 → 공항</div>
+  <div class="tl-desc">메이테츠 특급 28분 / 870엔 → 15:30 공항 도착</div>
+  <div class="tl-tags"><span class="tag tag-gray">메이테츠 870엔</span><span class="tag tag-gray">28분</span></div>
+</div></div></div></div></div>
+
+<div class="tl-item" id="wi-d4-3"><div class="tl-left"><div class="tl-line"><div class="tl-dot dot-alert">✈</div></div></div><div class="tl-body"><div class="tl-time">15:30 ~ 19:10</div>
+<div class="tl-card" onclick="toggle('d4-3')"><div class="check-row"><div class="chk">✓</div><div class="cc">
+  <div class="tl-place">공항 체크인 · 면세 · 탑승 ✈</div>
+  <div class="tl-desc">수하물 위탁 후 면세점. OZ123 탑승 19:10 → 인천T2 21:10 도착</div>
+  <div class="tl-tags"><span class="tag tag-red">탑승 19:10</span><span class="tag tag-gray">인천 21:10 도착</span></div>
+</div></div></div></div></div>
+
+</div>
+<div class="sect-divider"></div>
+<div class="summary-section">
+  <div class="summary-title">📋 저장목록 총정리</div>
+  <div class="chip-grid">
+    <div class="chip-row"><div class="chip-emoji">🍱</div><div><div class="chip-label">식사</div><div class="chip-val">히쓰마부시 하나오카 ★4.7 (현금!) · 야바톤 야바쵸 본점 · 멘야하나비 · 쿠라스시 · 스시로 사카에점</div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🛍</div><div><div class="chip-label">쇼핑</div><div class="chip-val">나고야 파르코 → 포켓몬센터(파르코 동관2F) → 빔즈 → 베이프(19시 마감!) → 몽벨 · Kapital(오스)</div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🎡</div><div><div class="chip-label">관광</div><div class="chip-val">오아시스21+미라이타워(무료) · 나고야성 · 나고야항 수족관(예약 필수!)</div></div></div>
+    <div class="chip-row"><div class="chip-emoji">🌿</div><div><div class="chip-label">보류</div><div class="chip-val">지브리파크 — 원하면 5/16 토요일 오전 배치 가능 (나고야역 → 리니모 40분)</div></div></div>
+  </div>
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bnav-btn active" onclick="show('d1',null,0)"><span class="bnav-day">5/15 금</span><span class="bnav-label">도착일</span></button>
+  <button class="bnav-btn" onclick="show('d2',null,1)"><span class="bnav-day">5/16 토</span><span class="bnav-label">나고야성+오스</span></button>
+  <button class="bnav-btn" onclick="show('d3',null,2)"><span class="bnav-day">5/17 일</span><span class="bnav-label">수족관 🐋</span></button>
+  <button class="bnav-btn" onclick="show('d4',null,3)"><span class="bnav-day">5/18 월</span><span class="bnav-label">귀국일</span></button>
+</div>
+
+<script>
+const ALL = [
+  ['d1-0','d1-1','d1-2','d1-3'],
+  ['d2-0','d2-1','d2-2','d2-3','d2-4','d2-5'],
+  ['d3-0','d3-1','d3-2','d3-3','d3-4','d3-5','d3-6','d3-7','d3-8','d3-9','d3-10','d3-11'],
+  ['d4-0','d4-1','d4-2','d4-3']
+];
+const KEY = 'nagoya2026';
+let chk = {};
+try { chk = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
+
+ALL.flat().forEach(id => { if (chk[id]) applyDone(id, true); });
+updateUI();
+
+function toggle(id) {
+  chk[id] = !chk[id];
+  try { localStorage.setItem(KEY, JSON.stringify(chk)); } catch(e) {}
+  applyDone(id, chk[id]);
+  updateUI();
+}
+
+function applyDone(id, done) {
+  const card = document.querySelector('#wi-' + id + ' .tl-card');
+  const wrap = document.getElementById('wi-' + id);
+  if (!card) return;
+  card.classList.toggle('done', done);
+  wrap.classList.toggle('done-item', done);
+}
+
+function updateUI() {
+  const total = ALL.flat().length;
+  const done = ALL.flat().filter(id => chk[id]).length;
+  document.getElementById('prog-count').textContent = done + ' / ' + total + ' 완료';
+  document.getElementById('prog-fill').style.width = Math.round(done / total * 100) + '%';
+  ALL.forEach((day, i) => {
+    const dc = day.filter(id => chk[id]).length;
+    const el = document.getElementById('tc' + i);
+    if (el) el.textContent = dc > 0 ? dc + '/' + day.length : '';
+    el.style.display = dc > 0 ? '' : 'none';
+  });
+}
+
+const panels = ['d1','d2','d3','d4'];
+function show(id, btn, idx) {
+  panels.forEach(p => document.getElementById(p).classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  document.querySelectorAll('.bnav-btn')[idx].classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
