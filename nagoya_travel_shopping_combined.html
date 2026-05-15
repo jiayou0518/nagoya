@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나고야 여행 + 일본 쇼핑리스트</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap');
+  :root { --bg:#f7f6f2; --white:#fff; --surface:#f0efe9; --border:#e4e2da; --text:#1a1916; --muted:#7a7870; --accent:#b8860b; --accent-bg:#fdf3d8; --teal:#0f6e56; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; }
+  .app-shell { min-height:100vh; display:flex; flex-direction:column; }
+  .topbar { position:sticky; top:0; z-index:10; background:rgba(255,255,255,.96); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:14px 14px 10px; }
+  .title { font-family:'DM Serif Display',serif; font-size:24px; line-height:1.1; margin:0 0 10px; text-align:center; }
+  .title em { color:var(--accent); font-style:italic; }
+  .switch { display:flex; gap:8px; justify-content:center; }
+  .switch button { border:1px solid #d0cec4; background:#fff; color:var(--muted); border-radius:999px; padding:9px 16px; font-family:inherit; font-size:13px; cursor:pointer; font-weight:500; }
+  .switch button.active { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:700; }
+  .frame-wrap { flex:1; min-height:0; }
+  iframe { width:100%; height:calc(100vh - 94px); border:0; display:none; background:#fff; }
+  iframe.active { display:block; }
+  .hint { text-align:center; font-size:11px; color:var(--muted); margin-top:6px; }
+  @media (min-width:760px) { body { padding:18px; } .app-shell { max-width:760px; margin:0 auto; border:1px solid var(--border); border-radius:24px; overflow:hidden; background:#fff; box-shadow:0 12px 40px rgba(40,35,20,.08); } iframe { height:calc(100vh - 132px); } .topbar { border-radius:24px 24px 0 0; } }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="topbar">
+    <h1 class="title"><em>Nagoya</em> 여행 + 쇼핑리스트</h1>
+    <div class="switch">
+      <button class="active" data-target="travelFrame">여행 플랜</button>
+      <button data-target="shopFrame">쇼핑리스트</button>
+    </div>
+    <div class="hint">하나의 HTML 파일 안에 여행 일정과 쇼핑 체크리스트를 합쳤어요.</div>
+  </div>
+  <div class="frame-wrap">
+    <iframe id="travelFrame" class="active" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ko&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;나고야 여행 플랜 🇯🇵&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;family=DM+Serif+Display:ital@0;1&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+:root {
+  --bg: #f7f6f2;
+  --white: #ffffff;
+  --surface: #f0efe9;
+  --border: #e4e2da;
+  --border2: #d0cec4;
+  --text: #1a1916;
+  --muted: #7a7870;
+  --accent: #b8860b;
+  --accent-bg: #fdf3d8;
+  --accent-border: #e8c97a;
+  --teal: #0f6e56;
+  --teal-bg: #e8f5f0;
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --green: #2d7a4f;
+  --green-bg: #eaf5ee;
+  --blue: #1a5fa8;
+  --blue-bg: #e8f1fb;
+  --gray-bg: #f0efe9;
+  --orange: #b85c0b;
+  --orange-bg: #fef0e6;
+  --done-bg: #eceae2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: &#x27;Noto Sans KR&#x27;, sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  padding-bottom: 130px;
+}
+
+/* HERO */
+.hero {
+  position: relative; padding: 52px 20px 32px;
+  overflow: hidden; background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: &#x27;名古屋&#x27;; position: absolute; top: -8px; right: -8px;
+  font-size: 110px; font-family: serif; color: rgba(184,134,11,0.06);
+  line-height: 1; pointer-events: none; letter-spacing: -4px;
+}
+.hero-label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+.hero-title { font-family: &#x27;DM Serif Display&#x27;, serif; font-size: 36px; line-height: 1.1; color: var(--text); margin-bottom: 6px; }
+.hero-title em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+.flights { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.flight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 13px 14px; }
+.flight-dir { font-size: 10px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 5px; font-weight: 500; }
+.flight-route { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
+.flight-detail { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* HOTEL */
+.hotel-strip {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 11px 15px; margin: 10px 20px 0;
+}
+.hotel-icon { width: 34px; height: 34px; background: var(--accent-bg); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+.hotel-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.hotel-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* PROGRESS */
+.progress-wrap { padding: 16px 20px 0; }
+.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.progress-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.progress-count { font-size: 12px; color: var(--accent); font-weight: 700; }
+.progress-bar { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+
+/* TABS */
+.tabs-wrap {
+  padding: 16px 20px 14px; position: sticky; top: 0; z-index: 100;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.tabs { display: flex; gap: 7px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0; padding: 8px 15px; border-radius: 99px;
+  border: 1px solid var(--border2); background: var(--white);
+  color: var(--muted); font-size: 13px; font-family: &#x27;Noto Sans KR&#x27;, sans-serif;
+  font-weight: 400; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.tab.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+.tab-cnt { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 99px; margin-left: 3px; background: var(--accent-bg); color: var(--accent); }
+.tab.active .tab-cnt { background: rgba(255,255,255,0.25); color: #fff; }
+
+/* PANELS */
+.panel { display: none; padding: 0 20px; }
+.panel.show { display: block; }
+
+.day-heading { margin-bottom: 18px; }
+.day-date { font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; font-weight: 500; margin-bottom: 4px; }
+.day-title { font-family: &#x27;DM Serif Display&#x27;, serif; font-size: 22px; color: var(--text); line-height: 1.2; }
+.day-title em { font-style: italic; color: var(--teal); }
+
+/* ALERTS */
+.alert { background: var(--red-bg); border: 1px solid rgba(192,57,43,0.2); border-radius: 12px; padding: 13px 15px; margin-bottom: 14px; font-size: 13px; line-height: 1.6; color: var(--red); }
+.alert strong { color: #8b1a10; font-weight: 700; }
+.alert-info { background: var(--teal-bg); border-color: rgba(15,110,86,0.2); color: var(--teal); }
+.alert-info strong { color: #084d3b; }
+.alert-warn { background: var(--accent-bg); border-color: rgba(184,134,11,0.25); color: #7a5a00; }
+.alert-warn strong { color: #5a3f00; }
+
+/* TIMELINE */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 14px; position: relative; }
+.tl-item:not(:last-child) .tl-line::after {
+  content: &#x27;&#x27;; position: absolute; left: 50%; top: 26px; bottom: -10px;
+  width: 1px; background: var(--border); transform: translateX(-50%);
+}
+.tl-left { flex-shrink: 0; width: 38px; display: flex; flex-direction: column; align-items: center; padding-top: 2px; }
+.tl-line { position: relative; display: flex; flex-direction: column; align-items: center; }
+.tl-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+  border: 1.5px solid; background: var(--white);
+  position: relative; z-index: 1; transition: opacity 0.3s;
+}
+.dot-sight { border-color: var(--teal); color: var(--teal); }
+.dot-food  { border-color: var(--green); color: var(--green); }
+.dot-move  { border-color: var(--muted); color: var(--muted); }
+.dot-shop  { border-color: var(--orange); color: var(--orange); }
+.dot-key   { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.dot-alert { border-color: var(--red); color: var(--red); }
+.tl-item.done-item .tl-dot { opacity: 0.3; }
+
+.tl-body { flex: 1; padding-bottom: 16px; }
+.tl-time { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+
+/* CARD + CHECK */
+.tl-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 13px 14px;
+  cursor: pointer; transition: background 0.25s, border-color 0.25s;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.tl-card:active { transform: scale(0.985); }
+.tl-card.hl { border-color: var(--accent-border); border-width: 1.5px; background: var(--accent-bg); }
+.check-row { display: flex; align-items: flex-start; gap: 10px; }
+.chk {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px;
+  border: 1.5px solid var(--border2); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: transparent; transition: all 0.2s; margin-top: 1px;
+}
+.cc { flex: 1; }
+
+/* DONE STATE */
+.tl-card.done { background: var(--done-bg); border-color: var(--border); }
+.tl-card.done.hl { background: var(--done-bg); border-color: var(--border); }
+.tl-card.done .chk { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tl-card.done .tl-place { text-decoration: line-through; color: var(--muted); }
+.tl-card.done .tl-desc { opacity: 0.45; }
+.tl-card.done .tl-tags { opacity: 0.35; }
+
+.tl-place { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 5px; line-height: 1.35; transition: color 0.25s; }
+.tl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; transition: opacity 0.25s; }
+.tl-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; transition: opacity 0.25s; }
+.tag { font-size: 11px; padding: 2px 9px; border-radius: 99px; font-weight: 500; }
+.tag-yellow { background: var(--accent-bg); color: var(--accent); }
+.tag-teal   { background: var(--teal-bg); color: var(--teal); }
+.tag-red    { background: var(--red-bg); color: var(--red); }
+.tag-green  { background: var(--green-bg); color: var(--green); }
+.tag-gray   { background: var(--gray-bg); color: var(--muted); border: 1px solid var(--border); }
+.tag-orange { background: var(--orange-bg); color: var(--orange); }
+.tag-star   { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+
+/* SUMMARY */
+.sect-divider { height: 1px; background: var(--border); margin: 22px 0 18px; }
+.summary-section { margin-bottom: 10px; }
+.summary-title { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; font-weight: 500; margin-bottom: 12px; }
+.chip-grid { display: flex; flex-direction: column; gap: 8px; }
+.chip-row { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 11px 13px; }
+.chip-emoji { font-size: 17px; flex-shrink: 0; padding-top: 1px; }
+.chip-label { font-size: 12px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
+.chip-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.tip-box { background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
+.tip-box p { font-size: 13px; color: #7a5a00; line-height: 1.6; }
+.tip-box strong { color: #5a3f00; font-weight: 500; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border); padding: 10px 16px 20px;
+  display: flex; gap: 6px; z-index: 200;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.bottom-nav::-webkit-scrollbar { display: none; }
+.bnav-btn {
+  flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 9px 13px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--white); cursor: pointer; font-family: &#x27;Noto Sans KR&#x27;, sans-serif;
+  transition: all 0.2s; min-width: 72px;
+}
+.bnav-btn.active { background: var(--accent-bg); border-color: var(--accent-border); }
+.bnav-day { font-size: 10px; color: var(--muted); font-weight: 500; }
+.bnav-btn.active .bnav-day { color: var(--accent); }
+.bnav-label { font-size: 12px; color: var(--text); white-space: nowrap; font-weight: 400; }
+
+@media (min-width: 480px) { .hero-title { font-size: 46px; } }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;hero&quot;&gt;
+  &lt;div class=&quot;hero-label&quot;&gt;✈ Japan Travel Plan&lt;/div&gt;
+  &lt;h1 class=&quot;hero-title&quot;&gt;&lt;em&gt;Nagoya&lt;/em&gt;&lt;br&gt;여행 플랜&lt;/h1&gt;
+  &lt;div class=&quot;hero-sub&quot;&gt;2026 · 5/15(금) — 5/18(월) · 4일 3박&lt;/div&gt;
+  &lt;div class=&quot;flights&quot;&gt;
+    &lt;div class=&quot;flight-card&quot;&gt;
+      &lt;div class=&quot;flight-dir&quot;&gt;↗ 가는 편&lt;/div&gt;
+      &lt;div class=&quot;flight-route&quot;&gt;OZ124&lt;br&gt;인천T2 16:10&lt;br&gt;나고야 18:00&lt;/div&gt;
+      &lt;div class=&quot;flight-detail&quot;&gt;5/15 금 · 이코노미&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;flight-card&quot;&gt;
+      &lt;div class=&quot;flight-dir&quot;&gt;↙ 오는 편&lt;/div&gt;
+      &lt;div class=&quot;flight-route&quot;&gt;OZ123&lt;br&gt;나고야 19:10&lt;br&gt;인천T2 21:10&lt;/div&gt;
+      &lt;div class=&quot;flight-detail&quot;&gt;5/18 월 · 이코노미&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;hotel-strip&quot;&gt;
+  &lt;div class=&quot;hotel-icon&quot;&gt;🏨&lt;/div&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;hotel-name&quot;&gt;니시테츠호텔 크룸 나고야&lt;/div&gt;
+    &lt;div class=&quot;hotel-sub&quot;&gt;나고야 니시키3초메 · 사카에 도보권 · ★4.4&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;progress-wrap&quot;&gt;
+  &lt;div class=&quot;progress-header&quot;&gt;
+    &lt;span class=&quot;progress-label&quot;&gt;전체 진행률&lt;/span&gt;
+    &lt;span class=&quot;progress-count&quot; id=&quot;prog-count&quot;&gt;0 / 0 완료&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;progress-bar&quot;&gt;&lt;div class=&quot;progress-fill&quot; id=&quot;prog-fill&quot; style=&quot;width:0%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;tabs-wrap&quot;&gt;
+  &lt;div class=&quot;tabs&quot;&gt;
+    &lt;button class=&quot;tab active&quot; onclick=&quot;show(&#x27;d1&#x27;,this,0)&quot;&gt;5/15 금 &lt;span class=&quot;tab-cnt&quot; id=&quot;tc0&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;button class=&quot;tab&quot; onclick=&quot;show(&#x27;d2&#x27;,this,1)&quot;&gt;5/16 토 &lt;span class=&quot;tab-cnt&quot; id=&quot;tc1&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;button class=&quot;tab&quot; onclick=&quot;show(&#x27;d3&#x27;,this,2)&quot;&gt;5/17 일 &lt;span class=&quot;tab-cnt&quot; id=&quot;tc2&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;button class=&quot;tab&quot; onclick=&quot;show(&#x27;d4&#x27;,this,3)&quot;&gt;5/18 월 &lt;span class=&quot;tab-cnt&quot; id=&quot;tc3&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- D1 --&gt;
+&lt;div id=&quot;d1&quot; class=&quot;panel show&quot;&gt;
+&lt;div style=&quot;height:20px&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;day-heading&quot;&gt;
+  &lt;div class=&quot;day-date&quot;&gt;Day 1 · 5월 15일 금요일&lt;/div&gt;
+  &lt;div class=&quot;day-title&quot;&gt;도착 &amp;amp; &lt;em&gt;첫 저녁&lt;/em&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;alert alert-info&quot;&gt;&lt;strong&gt;⏱ 공항→호텔 예상&lt;/strong&gt;&lt;br&gt;도착 18:00 → 수하물 30~40분 → 메이테츠 28분 → 나고야역 19:10 → 호텔 도보 10분 → 19:25 체크인&lt;/div&gt;
+&lt;div class=&quot;timeline&quot;&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d1-0&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-alert&quot;&gt;✈&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;18:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d1-0&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;츄부국제공항 도착&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;입국심사 + 수하물 수취. 이코노미 짐 찾는 시간 30~40분 예상&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;짐 수취 30~40분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d1-1&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-move&quot;&gt;→&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;18:40&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d1-1&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;공항 → 나고야역 → 호텔 체크인&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;메이테츠 특급 28분 / 870엔 → 나고야역 하차 → 니시키3초메 호텔 도보 10분&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;메이테츠 870엔&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;약 40분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d1-2&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;★&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;20:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d1-2&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;오아시스21 + 미라이타워 야경&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;호텔에서 도보 8분. 유리 우주선 구조물 + TV타워 라이트업. 무료 입장. 밤이 가장 예뻐요 🌙&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;무료입장&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;도보 8분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d1-3&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-food&quot;&gt;食&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;20:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d1-3&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;야바톤 야바쵸 본점 🐷&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;미소 카츠 원조 맛집. 오아시스21에서 도보 5분. 21:00까지 입장 가능. 나고야 첫 밥!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 저장목록&lt;/span&gt;&lt;span class=&quot;tag tag-green&quot;&gt;나고야메시&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;1,000~2,000엔&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- D2 --&gt;
+&lt;div id=&quot;d2&quot; class=&quot;panel&quot;&gt;
+&lt;div style=&quot;height:20px&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;day-heading&quot;&gt;
+  &lt;div class=&quot;day-date&quot;&gt;Day 2 · 5월 16일 토요일&lt;/div&gt;
+  &lt;div class=&quot;day-title&quot;&gt;나고야성 + &lt;em&gt;오스 + 사카에&lt;/em&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;alert&quot;&gt;&lt;strong&gt;⚠ 히쓰마부시 하나오카 — 웨이팅!&lt;/strong&gt;&lt;br&gt;오픈 전(10:30) 현장 웨이팅 등록. 토요일 2~3시간 대기. &lt;strong&gt;현금만 가능 — 1인 5,000엔 준비!&lt;/strong&gt;&lt;/div&gt;
+&lt;div class=&quot;timeline&quot;&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d2-0&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-key&quot;&gt;!&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;10:30 — 먼저!&lt;/div&gt;
+&lt;div class=&quot;tl-card hl&quot; onclick=&quot;toggle(&#x27;d2-0&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;히쓰마부시 하나오카 — 웨이팅 등록&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;사카에 선리츠빌 2F. 호텔 도보 5분. 이름 올리고 대기 확인 후 나고야성으로 출발!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 저장목록 ★4.7&lt;/span&gt;&lt;span class=&quot;tag tag-red&quot;&gt;현금만!&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d2-1&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;★&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;11:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d2-1&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;나고야성 🏯&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;메이조선 시야쿠쇼역 도보 5분. 금빛 샤치호코 + 혼마루 어전. 약 1.5~2시간&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;입장 500엔&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;지하철 5분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d2-2&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-food&quot;&gt;食&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;13:00~14:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d2-2&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;히쓰마부시 하나오카 🍱&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;대기 순서 맞춰 복귀! 장어덮밥 나고야 최고 맛집. 현금 준비 필수!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 저장목록 ★4.7&lt;/span&gt;&lt;span class=&quot;tag tag-red&quot;&gt;현금 5,000엔/인&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d2-3&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-shop&quot;&gt;¥&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;15:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d2-3&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;오스 상점가 — Kapital&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;Kapital 오스 상점가 안 위치 (11:00~20:00). 빈티지숍 + 길거리음식 구경&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ Kapital ★4.7&lt;/span&gt;&lt;span class=&quot;tag tag-orange&quot;&gt;오스칸논역&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d2-4&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-shop&quot;&gt;¥&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;17:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d2-4&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;사카에 쇼핑 블록 🛍&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;나고야 파르코 → 포켓몬센터(파르코 동관2F) → 빔즈(라시크 2F) → 베이프(19시 마감!) → 몽벨. 다 한 블록!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 파르코·포켓몬·빔즈·베이프·몽벨&lt;/span&gt;&lt;span class=&quot;tag tag-red&quot;&gt;베이프 19시 마감!&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d2-5&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-food&quot;&gt;食&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;19:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d2-5&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;저녁 — 쿠라스시 or 스시로 사카에점&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;쇼핑 후 가벼운 회전초밥. 쿠라스시 or 스시로(★4.4) 둘 다 사카에에 있어요&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 저장목록&lt;/span&gt;&lt;span class=&quot;tag tag-green&quot;&gt;1,000~2,000엔&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- D3 --&gt;
+&lt;div id=&quot;d3&quot; class=&quot;panel&quot;&gt;
+&lt;div style=&quot;height:20px&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;day-heading&quot;&gt;
+  &lt;div class=&quot;day-date&quot;&gt;Day 3 · 5월 17일 일요일&lt;/div&gt;
+  &lt;div class=&quot;day-title&quot;&gt;나고야항 &lt;em&gt;수족관 데이&lt;/em&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;alert&quot;&gt;&lt;strong&gt;⚠ 수족관 사전예약 필수!&lt;/strong&gt;&lt;br&gt;일요일은 현장 구매 불가. → &lt;a href=&quot;https://www.asoview.com&quot; style=&quot;color:var(--red);&quot;&gt;asoview.com&lt;/a&gt; 또는 마이리얼트립 · 성인 2,030엔&lt;/div&gt;
+&lt;div class=&quot;alert alert-warn&quot;&gt;&lt;strong&gt;✨ 오픈런 추천!&lt;/strong&gt;&lt;br&gt;09:30 입장 → 돌고래쇼 + 벨루가 + 범고래 + 펭귄 먹이 알뜰하게 다 볼 수 있어요!&lt;/div&gt;
+&lt;div class=&quot;timeline&quot;&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-0&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-move&quot;&gt;→&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;09:20&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-0&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;나고야역 → 나고야코역 → 입장&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;히가시야마선 → 사카에에서 메이조선 환승 → 나고야코역 도보 5~8분. 예약 QR 스캔!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;지하철 25~30분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-1&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;북&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;09:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-1&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;북관 자유 관람 — 범고래·벨루가 수조&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;쇼 전 여유시간에 대수조 먼저 구경. 범고래·벨루가 유영 모습 바로 볼 수 있어요&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;북관&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;약 50분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-2&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;북&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;10:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-2&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;돌고래 퍼포먼스 BLUE ECHO 🐬&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;북관 3F 스타디움 · 20분. 10:10부터 자리 잡기 추천!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;북관 3F&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;20분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-3&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;북&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;11:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-3&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;벨루가 트레이닝 🤍&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;북관 3F 오로라의 바다 · 10분. 흰 고래를 바로 코앞에서!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;북관 3F&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;10분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-4&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;북&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;11:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-4&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;범고래 공개 훈련 🐋&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;북관 3F 스타디움 · 15분. 일본에서 범고래 볼 수 있는 곳이 여기 거의 유일!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;북관 3F&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;15분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-5&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-move&quot;&gt;→&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;11:50&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-5&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;남관으로 이동 — 12:15 자리 잡기!&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;정어리 토네이도·적도 수조 훑어보면서 남관 3F 펭귄 코너로 이동. 12:15엔 꼭 자리!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;이동 10~15분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-6&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-key&quot;&gt;★&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;12:30&lt;/div&gt;
+&lt;div class=&quot;tl-card hl&quot; onclick=&quot;toggle(&#x27;d3-6&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;⭐ 펭귄 먹이 주는 시간! 🐧&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;남관 3F 남극의 바다 · 10분. 펭귄들이 줄 서서 받아먹는 거 엄청 귀여워요!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;필수 목표!&lt;/span&gt;&lt;span class=&quot;tag tag-yellow&quot;&gt;남관 3F&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;10분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-7&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-food&quot;&gt;食&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;12:50&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-7&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;점심 — 수족관 내 레스토랑&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;가든 부두 or 수족관 내 식당. 펭귄 끝나자마자 바로 이동하면 줄 짧아요!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-green&quot;&gt;점심&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;약 1시간&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-8&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;남&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;14:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-8&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;남관 자유 관람 + 정어리 토네이도 🌀&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;심해·적도 수조 여유있게 구경. 14:30 정어리 토네이도(남관 2F · 5분) 꼭 보기!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-yellow&quot;&gt;남관&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;약 2시간&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-9&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-sight&quot;&gt;★&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;15:30 (선택)&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-9&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;남극 관측선 후지 🚢&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;수족관 바로 옆 실제 남극 관측선 견학. 통합권(2,440엔)이 단품보다 이득&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-teal&quot;&gt;선택 코스&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;통합권 2,440엔&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-10&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-move&quot;&gt;→&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;16:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-10&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;퇴장 → 나고야역 귀환 + 기념품 정리&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;나고야코역 → 지하철 25~30분. 에스카·테르미나 지하상가. 내일 귀국이라 기념품 마무리!&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;지하철 25~30분&lt;/span&gt;&lt;span class=&quot;tag tag-orange&quot;&gt;에키나카 쇼핑&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d3-11&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-food&quot;&gt;食&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;18:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d3-11&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;저녁 — 히쓰마부시 하나오카 저녁 타임&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;저녁(18:00~22:00)이 웨이팅 조금 짧아요. 어제 못 갔다면 오늘 도전! 또는 스시로 사카에점&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 저장목록&lt;/span&gt;&lt;span class=&quot;tag tag-red&quot;&gt;현금 5,000엔/인&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class=&quot;sect-divider&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;summary-section&quot;&gt;
+  &lt;div class=&quot;summary-title&quot;&gt;🎬 쇼 타임표 (5/17 일요일)&lt;/div&gt;
+  &lt;div class=&quot;chip-grid&quot;&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🐬&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;돌고래 퍼포먼스 · 북관 3F · 20분&lt;/div&gt;&lt;div class=&quot;chip-val&quot; style=&quot;font-size:12px;&quot;&gt;&lt;span style=&quot;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;&quot;&gt;10:30 ✓&lt;/span&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;12:30 · 14:30 · 16:00&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🐋&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;범고래 공개 훈련 · 북관 3F · 15분&lt;/div&gt;&lt;div class=&quot;chip-val&quot; style=&quot;font-size:12px;&quot;&gt;&lt;span style=&quot;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;&quot;&gt;11:30 ✓&lt;/span&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;13:30 · 15:30&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🤍&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;벨루가 트레이닝 · 북관 3F · 10분&lt;/div&gt;&lt;div class=&quot;chip-val&quot; style=&quot;font-size:12px;&quot;&gt;&lt;span style=&quot;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;&quot;&gt;10:30 ✓&lt;/span&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;12:30 · 16:00&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🐧&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;펭귄 먹이 ⭐ · 남관 3F · 10분&lt;/div&gt;&lt;div class=&quot;chip-val&quot; style=&quot;font-size:12px;&quot;&gt;&lt;span style=&quot;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-right:4px;font-weight:700;&quot;&gt;12:30 ✓&lt;/span&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;16:00&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🌀&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;정어리 토네이도 · 남관 2F · 5분&lt;/div&gt;&lt;div class=&quot;chip-val&quot; style=&quot;font-size:12px;&quot;&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;12:30 · &lt;/span&gt;&lt;span style=&quot;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin:0 4px;font-weight:700;&quot;&gt;14:30 ✓&lt;/span&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;16:00&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🐢&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;바다거북 먹이 · 남관 3F · 10분&lt;/div&gt;&lt;div class=&quot;chip-val&quot; style=&quot;font-size:12px;color:var(--muted)&quot;&gt;13:30&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;tip-box&quot;&gt;&lt;p&gt;&lt;strong&gt;동선 포인트&lt;/strong&gt;&lt;br&gt;북관 오전 몰아보기 → 점심 → 남관 이동. 층 이동 최소화! 펭귄 먹이 12:30이 오전 쇼들이랑 자연스럽게 연결돼요.&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- D4 --&gt;
+&lt;div id=&quot;d4&quot; class=&quot;panel&quot;&gt;
+&lt;div style=&quot;height:20px&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;day-heading&quot;&gt;
+  &lt;div class=&quot;day-date&quot;&gt;Day 4 · 5월 18일 월요일&lt;/div&gt;
+  &lt;div class=&quot;day-title&quot;&gt;마지막 아침 + &lt;em&gt;귀국&lt;/em&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;alert&quot;&gt;&lt;strong&gt;⚠ 멘야하나비 타카바타 본점 — 월요일 휴무!&lt;/strong&gt;&lt;br&gt;사카에 지점 이용하거나 나고야역 지하 미소라멘으로 대체&lt;/div&gt;
+&lt;div class=&quot;alert alert-info&quot;&gt;&lt;strong&gt;✈ 공항 이동 계산&lt;/strong&gt;&lt;br&gt;나고야역 15:00 출발 → 메이테츠 28분 → 공항 15:30 → 체크인+보안 3.5시간 확보&lt;/div&gt;
+&lt;div class=&quot;timeline&quot;&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d4-0&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-shop&quot;&gt;¥&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;09:00 ~ 12:00&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d4-0&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;나고야역 에키나카 마지막 쇼핑&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;테르미나·에스카 지하상가. 과자·기념품 마무리. 체크아웃 후 짐 프론트에 맡기기&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-orange&quot;&gt;기념품 마무리&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d4-1&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-food&quot;&gt;食&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;12:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d4-1&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;점심 — 멘야하나비 사카에점 🍜&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;타카바타 본점은 월요일 휴무라 사카에 지점으로! 나고야 명물 마제소바. 귀국날 마지막 나고야메시&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-star&quot;&gt;⭐ 저장목록&lt;/span&gt;&lt;span class=&quot;tag tag-green&quot;&gt;1,000~2,000엔&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d4-2&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-move&quot;&gt;→&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;14:30&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d4-2&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;호텔 짐 픽업 → 나고야역 → 공항&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;메이테츠 특급 28분 / 870엔 → 15:30 공항 도착&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;메이테츠 870엔&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;28분&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;tl-item&quot; id=&quot;wi-d4-3&quot;&gt;&lt;div class=&quot;tl-left&quot;&gt;&lt;div class=&quot;tl-line&quot;&gt;&lt;div class=&quot;tl-dot dot-alert&quot;&gt;✈&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;tl-body&quot;&gt;&lt;div class=&quot;tl-time&quot;&gt;15:30 ~ 19:10&lt;/div&gt;
+&lt;div class=&quot;tl-card&quot; onclick=&quot;toggle(&#x27;d4-3&#x27;)&quot;&gt;&lt;div class=&quot;check-row&quot;&gt;&lt;div class=&quot;chk&quot;&gt;✓&lt;/div&gt;&lt;div class=&quot;cc&quot;&gt;
+  &lt;div class=&quot;tl-place&quot;&gt;공항 체크인 · 면세 · 탑승 ✈&lt;/div&gt;
+  &lt;div class=&quot;tl-desc&quot;&gt;수하물 위탁 후 면세점. OZ123 탑승 19:10 → 인천T2 21:10 도착&lt;/div&gt;
+  &lt;div class=&quot;tl-tags&quot;&gt;&lt;span class=&quot;tag tag-red&quot;&gt;탑승 19:10&lt;/span&gt;&lt;span class=&quot;tag tag-gray&quot;&gt;인천 21:10 도착&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class=&quot;sect-divider&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;summary-section&quot;&gt;
+  &lt;div class=&quot;summary-title&quot;&gt;📋 저장목록 총정리&lt;/div&gt;
+  &lt;div class=&quot;chip-grid&quot;&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🍱&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;식사&lt;/div&gt;&lt;div class=&quot;chip-val&quot;&gt;히쓰마부시 하나오카 ★4.7 (현금!) · 야바톤 야바쵸 본점 · 멘야하나비 · 쿠라스시 · 스시로 사카에점&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🛍&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;쇼핑&lt;/div&gt;&lt;div class=&quot;chip-val&quot;&gt;나고야 파르코 → 포켓몬센터(파르코 동관2F) → 빔즈 → 베이프(19시 마감!) → 몽벨 · Kapital(오스)&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🎡&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;관광&lt;/div&gt;&lt;div class=&quot;chip-val&quot;&gt;오아시스21+미라이타워(무료) · 나고야성 · 나고야항 수족관(예약 필수!)&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;chip-row&quot;&gt;&lt;div class=&quot;chip-emoji&quot;&gt;🌿&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;chip-label&quot;&gt;보류&lt;/div&gt;&lt;div class=&quot;chip-val&quot;&gt;지브리파크 — 원하면 5/16 토요일 오전 배치 가능 (나고야역 → 리니모 40분)&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- BOTTOM NAV --&gt;
+&lt;div class=&quot;bottom-nav&quot;&gt;
+  &lt;button class=&quot;bnav-btn active&quot; onclick=&quot;show(&#x27;d1&#x27;,null,0)&quot;&gt;&lt;span class=&quot;bnav-day&quot;&gt;5/15 금&lt;/span&gt;&lt;span class=&quot;bnav-label&quot;&gt;도착일&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;bnav-btn&quot; onclick=&quot;show(&#x27;d2&#x27;,null,1)&quot;&gt;&lt;span class=&quot;bnav-day&quot;&gt;5/16 토&lt;/span&gt;&lt;span class=&quot;bnav-label&quot;&gt;나고야성+오스&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;bnav-btn&quot; onclick=&quot;show(&#x27;d3&#x27;,null,2)&quot;&gt;&lt;span class=&quot;bnav-day&quot;&gt;5/17 일&lt;/span&gt;&lt;span class=&quot;bnav-label&quot;&gt;수족관 🐋&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;bnav-btn&quot; onclick=&quot;show(&#x27;d4&#x27;,null,3)&quot;&gt;&lt;span class=&quot;bnav-day&quot;&gt;5/18 월&lt;/span&gt;&lt;span class=&quot;bnav-label&quot;&gt;귀국일&lt;/span&gt;&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const ALL = [
+  [&#x27;d1-0&#x27;,&#x27;d1-1&#x27;,&#x27;d1-2&#x27;,&#x27;d1-3&#x27;],
+  [&#x27;d2-0&#x27;,&#x27;d2-1&#x27;,&#x27;d2-2&#x27;,&#x27;d2-3&#x27;,&#x27;d2-4&#x27;,&#x27;d2-5&#x27;],
+  [&#x27;d3-0&#x27;,&#x27;d3-1&#x27;,&#x27;d3-2&#x27;,&#x27;d3-3&#x27;,&#x27;d3-4&#x27;,&#x27;d3-5&#x27;,&#x27;d3-6&#x27;,&#x27;d3-7&#x27;,&#x27;d3-8&#x27;,&#x27;d3-9&#x27;,&#x27;d3-10&#x27;,&#x27;d3-11&#x27;],
+  [&#x27;d4-0&#x27;,&#x27;d4-1&#x27;,&#x27;d4-2&#x27;,&#x27;d4-3&#x27;]
+];
+const KEY = &#x27;nagoya2026&#x27;;
+let chk = {};
+try { chk = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
+
+ALL.flat().forEach(id =&gt; { if (chk[id]) applyDone(id, true); });
+updateUI();
+
+function toggle(id) {
+  chk[id] = !chk[id];
+  try { localStorage.setItem(KEY, JSON.stringify(chk)); } catch(e) {}
+  applyDone(id, chk[id]);
+  updateUI();
+}
+
+function applyDone(id, done) {
+  const card = document.querySelector(&#x27;#wi-&#x27; + id + &#x27; .tl-card&#x27;);
+  const wrap = document.getElementById(&#x27;wi-&#x27; + id);
+  if (!card) return;
+  card.classList.toggle(&#x27;done&#x27;, done);
+  wrap.classList.toggle(&#x27;done-item&#x27;, done);
+}
+
+function updateUI() {
+  const total = ALL.flat().length;
+  const done = ALL.flat().filter(id =&gt; chk[id]).length;
+  document.getElementById(&#x27;prog-count&#x27;).textContent = done + &#x27; / &#x27; + total + &#x27; 완료&#x27;;
+  document.getElementById(&#x27;prog-fill&#x27;).style.width = Math.round(done / total * 100) + &#x27;%&#x27;;
+  ALL.forEach((day, i) =&gt; {
+    const dc = day.filter(id =&gt; chk[id]).length;
+    const el = document.getElementById(&#x27;tc&#x27; + i);
+    if (el) el.textContent = dc &gt; 0 ? dc + &#x27;/&#x27; + day.length : &#x27;&#x27;;
+    el.style.display = dc &gt; 0 ? &#x27;&#x27; : &#x27;none&#x27;;
+  });
+}
+
+const panels = [&#x27;d1&#x27;,&#x27;d2&#x27;,&#x27;d3&#x27;,&#x27;d4&#x27;];
+function show(id, btn, idx) {
+  panels.forEach(p =&gt; document.getElementById(p).classList.remove(&#x27;show&#x27;));
+  document.getElementById(id).classList.add(&#x27;show&#x27;);
+  document.querySelectorAll(&#x27;.tab&#x27;).forEach(t =&gt; t.classList.remove(&#x27;active&#x27;));
+  document.querySelectorAll(&#x27;.bnav-btn&#x27;).forEach(b =&gt; b.classList.remove(&#x27;active&#x27;));
+  document.querySelectorAll(&#x27;.tab&#x27;)[idx].classList.add(&#x27;active&#x27;);
+  document.querySelectorAll(&#x27;.bnav-btn&#x27;)[idx].classList.add(&#x27;active&#x27;);
+  window.scrollTo({top:0, behavior:&#x27;smooth&#x27;});
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+    <iframe id="shopFrame" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ko&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;일본 쇼핑리스트&lt;/title&gt;
+&lt;style&gt;
+  @import url(&#x27;https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;family=Noto+Serif+JP:wght@400;600&amp;display=swap&#x27;);
+  :root {
+    --cream:#f7f6f2;--pink-light:#e8f5f0;--pink:#d8c27e;--pink-dark:#b8860b;--sakura:#cdb56a;--red:#0f6e56;--text:#1a1916;--text-muted:#7a7870;--card-bg:#ffffff;--card-border:#e4e2da;--tag-bg:#fdf3d8;--tag-text:#7a5a00;--yellow:#fff6dc;--yellow-border:#e8c97a;--yellow-text:#7a5a00;--check-text:#a5a199;--shadow:0 2px 16px rgba(80,70,45,0.08);--radius:16px;--radius-sm:8px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:&#x27;Noto Sans KR&#x27;,sans-serif;background:linear-gradient(135deg,#f7f6f2 0%,#f0efe9 55%,#e8f5f0 100%);min-height:100vh;color:var(--text);padding-bottom:48px;}
+  header{background:linear-gradient(135deg,#ffffff 0%,#fdf3d8 100%);border-bottom:2px solid var(--pink);padding:28px 20px 18px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 24px rgba(80,70,45,0.10);}
+  header .emoji-row{font-size:22px;letter-spacing:4px;margin-bottom:4px;}
+  header h1{font-family:&#x27;Noto Serif JP&#x27;,serif;font-size:28px;font-weight:600;color:var(--red);letter-spacing:2px;line-height:1.2;}
+  header .subtitle{font-size:12px;color:var(--text-muted);margin-top:4px;letter-spacing:1px;}
+  .progress-wrap{margin:18px 20px 0;background:#fff;border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);border:1px solid var(--card-border);}
+  .progress-label{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;}
+  .progress-count{font-weight:700;color:var(--red);font-size:15px;}
+  .progress-bar-bg{background:#f0ddd8;border-radius:99px;height:10px;overflow:hidden;}
+  .progress-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sakura),var(--pink-dark));transition:width 0.5s cubic-bezier(.4,0,.2,1);width:0%;}
+  .controls{margin:16px 20px 0;display:flex;flex-direction:column;gap:10px;}
+  .search-wrap{position:relative;}
+  .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+  input[type=&quot;search&quot;]{width:100%;padding:12px 14px 12px 40px;border:1.5px solid var(--card-border);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;box-shadow:var(--shadow);}
+  input[type=&quot;search&quot;]:focus{border-color:var(--pink);}
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .filter-btn{padding:8px 14px;border-radius:99px;border:1.5px solid var(--card-border);background:#fff;font-size:12px;font-family:inherit;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+  .filter-btn.active{background:var(--pink-dark);border-color:var(--pink-dark);color:#fff;}
+  .categories{margin:18px 20px 0;display:flex;flex-direction:column;gap:14px;}
+  .category-section{background:var(--card-bg);border-radius:var(--radius);border:1.5px solid var(--card-border);overflow:hidden;box-shadow:var(--shadow);}
+  .category-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;background:linear-gradient(90deg,#fff0f5,#fff6f0);border-bottom:1px solid var(--card-border);user-select:none;-webkit-tap-highlight-color:transparent;}
+  .category-header:active{background:#ffe0ec;}
+  .cat-left{display:flex;align-items:center;gap:10px;}
+  .cat-icon{font-size:20px;}.cat-name{font-weight:700;font-size:15px;color:var(--red);}
+  .cat-count{font-size:11px;background:var(--pink-light);color:var(--pink-dark);border-radius:99px;padding:2px 8px;font-weight:500;}
+  .cat-arrow{font-size:16px;color:var(--pink-dark);transition:transform 0.25s;}
+  .category-section.collapsed .cat-arrow{transform:rotate(-90deg);}
+  .category-body{display:flex;flex-direction:column;gap:0;}
+  .category-section.collapsed .category-body{display:none;}
+  .product-card{padding:16px 18px;border-bottom:1px solid var(--card-border);transition:background 0.2s,opacity 0.3s;display:flex;flex-direction:column;gap:10px;}
+  .product-card:last-child{border-bottom:none;}
+  .product-card.hidden{display:none;}
+  .product-card.checked{background:#f9f9f9;opacity:0.6;}
+  .card-top{display:flex;align-items:flex-start;gap:12px;}
+  .check-area{flex-shrink:0;margin-top:2px;}
+  .check-area input[type=&quot;checkbox&quot;]{display:none;}
+  .check-box{width:26px;height:26px;border-radius:50%;border:2px solid var(--pink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;background:#fff;font-size:14px;}
+  .check-area input:checked + .check-box{background:var(--pink-dark);border-color:var(--pink-dark);color:#fff;}
+  .check-area input:checked + .check-box::after{content:&#x27;✓&#x27;;color:#fff;}
+  .product-img-wrap{flex-shrink:0;width:72px;height:72px;border-radius:var(--radius-sm);overflow:hidden;border:1.5px solid var(--card-border);background:#f5f0ee;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;}
+  .product-img-wrap img{width:100%;height:100%;object-fit:contain;background:#fff;}
+  .product-img-wrap .img-placeholder{font-size:28px;line-height:1;}
+  .img-search-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;background:none;border:none;cursor:default;padding:4px;text-decoration:none;color:var(--text-muted);transition:background 0.15s;border-radius:var(--radius-sm);}
+  .img-search-btn:active{background:#eef4ee;}
+  .isb-emoji{font-size:22px;line-height:1;}
+  .isb-label{font-size:9px;color:var(--pink-dark);text-align:center;font-weight:600;letter-spacing:-0.3px;line-height:1.2;margin-top:2px;}
+  .product-info{flex:1;min-width:0;}
+  .product-name-row{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;}
+  .product-name{font-size:15px;font-weight:700;color:var(--text);line-height:1.3;}
+  .checked .product-name{text-decoration:line-through;color:var(--check-text);}
+  .badge-confirm{background:var(--yellow);border:1px solid var(--yellow-border);color:var(--yellow-text);font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+  .badge-verified{background:#eafaf1;border:1px solid #82e0aa;color:#1d8348;font-size:9px;font-weight:700;padding:1px 6px;border-radius:99px;white-space:nowrap;flex-shrink:0;vertical-align:middle;margin-left:3px;}
+  .product-jp-name{font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:4px;font-family:&#x27;Noto Serif JP&#x27;,serif;}
+  .product-price{font-size:15px;font-weight:700;color:var(--red);margin-bottom:4px;}
+  .price-note{font-size:10px;color:var(--text-muted);font-weight:400;margin-left:2px;}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;}
+  .tag{background:var(--tag-bg);color:var(--tag-text);border-radius:99px;padding:3px 10px;font-size:11px;font-weight:500;border:1px solid #f0c0d8;}
+  .tag.store{background:#eef4ff;color:#5070c0;border-color:#c8d8f8;}
+  .product-memo{background:#fff9ec;border-left:3px solid var(--yellow-border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:7px 10px;font-size:12px;color:#7a6020;line-height:1.5;}
+  .empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;display:none;}
+  .empty-state.visible{display:block;}
+  .reset-wrap{text-align:center;margin:24px 20px 0;}
+  .reset-btn{background:none;border:1.5px solid var(--card-border);border-radius:99px;padding:10px 24px;font-size:13px;font-family:inherit;color:var(--text-muted);cursor:pointer;transition:all 0.2s;}
+  .reset-btn:hover{border-color:var(--pink);color:var(--pink-dark);}
+  .category-section.pending .category-header{background:linear-gradient(90deg,#f5f5f5,#f8f8f8);}
+  .category-section.pending .cat-name{color:#9a8a7a;}
+  .category-section.pending .cat-count{background:#f0ede8;color:#9a8a7a;}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;header&gt;
+  &lt;div class=&quot;emoji-row&quot;&gt;🛍️ ✈️ 🏯 🍵&lt;/div&gt;
+  &lt;h1&gt;일본 쇼핑리스트&lt;/h1&gt;
+  &lt;div class=&quot;subtitle&quot;&gt;돈키호테 · 드럭스토어 · 마트에서 살 것들 · 검색 링크 없는 이미지 카드&lt;/div&gt;
+&lt;/header&gt;
+&lt;div class=&quot;progress-wrap&quot;&gt;
+  &lt;div class=&quot;progress-label&quot;&gt;
+    &lt;span&gt;🛒 구매 진행률&lt;/span&gt;
+    &lt;span class=&quot;progress-count&quot; id=&quot;progressText&quot;&gt;0 / 0 구매 완료&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;progress-bar-bg&quot;&gt;&lt;div class=&quot;progress-bar-fill&quot; id=&quot;progressBar&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;controls&quot;&gt;
+  &lt;div class=&quot;search-wrap&quot;&gt;
+    &lt;span class=&quot;search-icon&quot;&gt;🔍&lt;/span&gt;
+    &lt;input type=&quot;search&quot; id=&quot;searchInput&quot; placeholder=&quot;상품명, 판매처, 메모로 검색...&quot; autocomplete=&quot;off&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;filter-row&quot;&gt;
+    &lt;button class=&quot;filter-btn active&quot; data-filter=&quot;all&quot;&gt;전체 보기&lt;/button&gt;
+    &lt;button class=&quot;filter-btn&quot; data-filter=&quot;unpurchased&quot;&gt;미구매만&lt;/button&gt;
+    &lt;button class=&quot;filter-btn&quot; data-filter=&quot;purchased&quot;&gt;구매 완료만&lt;/button&gt;
+    &lt;button class=&quot;filter-btn&quot; data-filter=&quot;confirm&quot;&gt;확인 필요만&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;categories&quot; id=&quot;categoriesRoot&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;empty-state&quot; id=&quot;emptyState&quot;&gt;🌸 검색 결과가 없습니다&lt;/div&gt;
+&lt;div class=&quot;reset-wrap&quot;&gt;&lt;button class=&quot;reset-btn&quot; id=&quot;resetBtn&quot;&gt;🗑️ 구매 체크 전체 초기화&lt;/button&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const PRODUCTS=[
+  // ── 화장품 ──
+  {id:&#x27;c1&#x27;,category:&#x27;화장품&#x27;,name:&#x27;캔메이크 시크릿 뷰티 파우더 (하트 모양)&#x27;,jpName:&#x27;CANMAKE シークレットビューティーパウダー&#x27;,price:&#x27;¥935 (세금포함)&#x27;,priceVerified:true,stores:[&#x27;돈키호테&#x27;,&#x27;마츠키요&#x27;,&#x27;웰시아&#x27;,&#x27;드럭스토어&#x27;],memo:&#x27;24시간 클리어 파우더. 01 클리어(투명) / 02 내추럴(베이지) 2종. 하트 자물쇠 모양 패키지가 특징. 색상 번호 확인 후 구매.&#x27;,needsConfirm:false,image:&#x27;https://www.canmake.com/wp-content/uploads/2025/08/A03_55_common_img_001.png&#x27;,imageSearchQuery:&#x27;CANMAKE シークレットビューティーパウダー&#x27;,imageEmoji:&#x27;🌸&#x27;},
+  {id:&#x27;c2&#x27;,category:&#x27;화장품&#x27;,name:&#x27;시세이도 아이래쉬 컬러 213 (뷰러)&#x27;,jpName:&#x27;資生堂 アイラッシュカーラー 213&#x27;,price:&#x27;¥880 (세금포함)&#x27;,priceVerified:true,stores:[&#x27;마츠키요&#x27;,&#x27;돈키호테&#x27;,&#x27;드럭스토어&#x27;,&#x27;로프트&#x27;,&#x27;백화점&#x27;],memo:&#x27;1992년 발매 롱셀러. 일본 여성 수천 명의 눈꺼풀 분석으로 설계. ※2024년 8월부터「213」표기 삭제, 가격 인상 가능성 있음.&#x27;,needsConfirm:false,image:&#x27;https://imagecdn.shiseido.co.jp/c%21/a%3D0%2Cf%3Dwebp%3Ajpg/resources/sw/products/img/20240625/SHOHIN_PL_C1_H36001.jpg&#x27;,imageSearchQuery:&#x27;資生堂 アイラッシュカーラー 213&#x27;,imageEmoji:&#x27;✂️&#x27;},
+  {id:&#x27;c3&#x27;,category:&#x27;화장품&#x27;,name:&#x27;캔메이크 메탈룩 볼륨 마스카라&#x27;,jpName:&#x27;CANMAKE メタルルックスカラー マスカラ&#x27;,price:&#x27;¥660〜¥880&#x27;,priceVerified:false,stores:[&#x27;돈키호테&#x27;,&#x27;마츠키요&#x27;,&#x27;웰시아&#x27;],memo:&#x27;캔메이크 마스카라 시리즈. 정확한 제품명 매장 확인 필요.&#x27;,needsConfirm:true,image:&#x27;&#x27;,imageSearchQuery:&#x27;CANMAKE メタルルックス マスカラ&#x27;,imageEmoji:&#x27;💄&#x27;},
+  {id:&#x27;c4&#x27;,category:&#x27;화장품&#x27;,name:&#x27;마스카라 리무버&#x27;,jpName:&#x27;ポイントメイクアップリムーバー / マスカラリムーバー&#x27;,price:&#x27;¥440〜¥880&#x27;,priceVerified:false,stores:[&#x27;마츠키요&#x27;,&#x27;코코카라&#x27;,&#x27;드럭스토어&#x27;,&#x27;돈키호테&#x27;],memo:&#x27;방수 마스카라용 오일 타입 추천. DHC·케이트·캔메이크 등 다양. 매장에서 비교 후 구매.&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;マスカラリムーバー ドラッグストア&#x27;,imageEmoji:&#x27;🧴&#x27;},
+  {id:&#x27;c5&#x27;,category:&#x27;화장품&#x27;,name:&#x27;알비온 루즈 파우더 미스트&#x27;,jpName:&#x27;ALBION ルースパウダー / セッティングミスト系&#x27;,price:&#x27;¥3,300〜¥5,500&#x27;,priceVerified:false,stores:[&#x27;백화점&#x27;,&#x27;면세점&#x27;,&#x27;알비온 카운터&#x27;],memo:&#x27;알비온 라인이 다양. 정확한 제품명은 백화점 카운터 직원에게 확인. 테스터 체험 가능.&#x27;,needsConfirm:true,image:&#x27;&#x27;,imageSearchQuery:&#x27;ALBION アルビオン ルースパウダー&#x27;,imageEmoji:&#x27;✨&#x27;},
+  {id:&#x27;c6&#x27;,category:&#x27;화장품&#x27;,name:&#x27;캔메이크 무뉴토 하이라이터&#x27;,jpName:&#x27;CANMAKE むにゅっとハイライター&#x27;,price:&#x27;¥880〜¥935&#x27;,priceVerified:false,stores:[&#x27;돈키호테&#x27;,&#x27;마츠키요&#x27;,&#x27;로프트&#x27;,&#x27;웰시아&#x27;],memo:&#x27;젤리 타입 하이라이터. &quot;むにゅっと&quot; = 말랑말랑 의성어. 색상 번호 확인 후 구매.&#x27;,needsConfirm:false,image:&#x27;https://www.canmake.com/wp-content/uploads/2025/08/A04_152_col01_img_01-1.jpg&#x27;,imageSearchQuery:&#x27;CANMAKE むにゅっとハイライター&#x27;,imageEmoji:&#x27;💎&#x27;},
+  {id:&#x27;c7&#x27;,category:&#x27;화장품&#x27;,name:&#x27;쉬글램 하이라이터&#x27;,jpName:&#x27;SHE GLAM ハイライター&#x27;,price:&#x27;¥1,500〜¥3,000&#x27;,priceVerified:false,stores:[&#x27;플라자&#x27;,&#x27;로프트&#x27;,&#x27;온라인&#x27;],memo:&#x27;SHE GLAM은 중국 브랜드. 일본 플라자·로프트 취급 여부 요확인. 온라인(Qoo10 Japan) 구매가 확실.&#x27;,needsConfirm:true,image:&#x27;&#x27;,imageSearchQuery:&#x27;SHE GLAM ハイライター 日本&#x27;,imageEmoji:&#x27;✨&#x27;},
+  {id:&#x27;c8&#x27;,category:&#x27;화장품&#x27;,name:&#x27;세잔느 파워글로우 하이라이트 SP2 로만스블룸 (한정)&#x27;,jpName:&#x27;CEZANNE パールグロウハイライト SP2 ロマンスブルーム（限定）&#x27;,price:&#x27;¥770 (세금포함)&#x27;,priceVerified:true,stores:[&#x27;마츠키요&#x27;,&#x27;웰시아&#x27;,&#x27;돈키호테&#x27;,&#x27;드럭스토어&#x27;,&#x27;플라자&#x27;],memo:&#x27;2024년 11월 발매 한정색. 4색 멀티 하이라이터. ⚠️ 한정품이라 품절 가능성 높음! 통상색은 ¥660.&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;CEZANNE パールグロウハイライト SP2 ロマンスブルーム&#x27;,imageEmoji:&#x27;🌟&#x27;},
+  {id:&#x27;c9&#x27;,category:&#x27;화장품&#x27;,name:&#x27;캔메이크 무치푸루 립스&#x27;,jpName:&#x27;CANMAKE ムチプルリップス&#x27;,price:&#x27;¥550〜¥660&#x27;,priceVerified:false,stores:[&#x27;돈키호테&#x27;,&#x27;마츠키요&#x27;,&#x27;웰시아&#x27;,&#x27;드럭스토어&#x27;],memo:&#x27;쫀득쫀득 볼륨 립틴트 타입. 색상 번호 확인 후 구매.&#x27;,needsConfirm:false,image:&#x27;https://www.canmake.com/wp-content/uploads/2025/08/D02_167_col02_img_00.jpg&#x27;,imageSearchQuery:&#x27;CANMAKE ムチプルリップス&#x27;,imageEmoji:&#x27;💋&#x27;},
+  // ── 스킨케어/바디케어 ──
+  {id:&#x27;s1&#x27;,category:&#x27;스킨케어/바디케어&#x27;,name:&#x27;페어아크네 크림 W&#x27;,jpName:&#x27;ライオン ペアアクネクリームW [第2類医薬品]&#x27;,price:&#x27;¥712〜¥1,537 (용량별)&#x27;,priceVerified:true,stores:[&#x27;마츠키요&#x27;,&#x27;웰시아&#x27;,&#x27;코코카라&#x27;,&#x27;드럭스토어&#x27;],memo:&#x27;라이온(LION) 여드름 치료 크림 (제2류 의약품). 14g·24g 두 가지. 이부프로펜피코노일+이소프로필메틸페놀 W 성분. 투명 크림으로 메이크업 위에도 사용 가능.&#x27;,needsConfirm:false,image:&#x27;https://doc.lion.co.jp/uploads/grn/product/normal_image/160/PairAcneCreamW.png&#x27;,imageSearchQuery:&#x27;ライオン ペアアクネクリームW&#x27;,imageEmoji:&#x27;💊&#x27;},
+  {id:&#x27;s2&#x27;,category:&#x27;스킨케어/바디케어&#x27;,name:&#x27;모공 블랙헤드 클렌징 젤 (츠루리계)&#x27;,jpName:&#x27;毛穴撫子 / 毛穴スルッとジェル / 黒ずみケアジェル&#x27;,price:&#x27;¥880〜¥1,650&#x27;,priceVerified:false,stores:[&#x27;마츠키요&#x27;,&#x27;돈키호테&#x27;,&#x27;로프트&#x27;,&#x27;드럭스토어&#x27;],memo:&#x27;「츠루리」는 브랜드명이 아닐 수 있음. 후보: ①石澤研究所 毛穴撫子 ②ビオレ毛穴クリアジェル. 매장에서「黒ずみ ジェル」검색 추천.&#x27;,needsConfirm:true,image:&#x27;&#x27;,imageSearchQuery:&#x27;毛穴 黒ずみ クレンジングジェル ドラッグストア&#x27;,imageEmoji:&#x27;🫧&#x27;},
+  // ── 식품/간식 ──
+  {id:&#x27;f1&#x27;,category:&#x27;식품/간식&#x27;,name:&#x27;모모야 라유 (먹는 라유)&#x27;,jpName:&#x27;桃屋 辛そうで辛くない少し辛いラー油 110g&#x27;,price:&#x27;¥440〜¥550&#x27;,priceVerified:true,stores:[&#x27;이온/마트&#x27;,&#x27;돈키호테&#x27;,&#x27;편의점&#x27;,&#x27;슈퍼&#x27;],memo:&#x27;모모야(桃屋) 대표 상품. 프라이드 갈릭+양파의 식감이 살아있는 먹는 라유. 밥·두부·교자와 잘 어울림. 한국 반입 가능.&#x27;,needsConfirm:false,image:&#x27;https://www.momoya.co.jp/shop/html/upload/save_image/0412172126_625536864c4c1.png&#x27;,imageSearchQuery:&#x27;桃屋 辛そうで辛くない少し辛いラー油&#x27;,imageEmoji:&#x27;🌶️&#x27;},
+  {id:&#x27;f2&#x27;,category:&#x27;식품/간식&#x27;,name:&#x27;돈키호테 군고구마 (즉석)&#x27;,jpName:&#x27;ドン・キホーテ 焼き芋 (やきいも)&#x27;,price:&#x27;¥300〜¥500&#x27;,priceVerified:false,stores:[&#x27;돈키호테&#x27;],memo:&#x27;⚠️ 즉석 판매 식품. 포장 제품 아님 → 한국 반입 불가. 매장 방문 시 현장에서 바로 먹기.&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;ドンキホーテ 焼き芋&#x27;,imageEmoji:&#x27;🍠&#x27;},
+  {id:&#x27;f3&#x27;,category:&#x27;식품/간식&#x27;,name:&#x27;우유 푸딩 (편의점)&#x27;,jpName:&#x27;ミルクプリン / 北海道ミルクプリン&#x27;,price:&#x27;¥150〜¥400&#x27;,priceVerified:false,stores:[&#x27;편의점&#x27;,&#x27;이온/마트&#x27;,&#x27;슈퍼&#x27;],memo:&#x27;세이코마트 홋카이도 우유 푸딩이 유명. 로손·세븐·패밀리도 판매. ⚠️ 냉장식품 → 한국 반입 불가. 현지에서 먹기.&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;北海道 ミルクプリン コンビニ&#x27;,imageEmoji:&#x27;🍮&#x27;},
+  // ── 생활용품/기타 ──
+  {id:&#x27;g1&#x27;,category:&#x27;생활용품/기타&#x27;,name:&#x27;코세 에스카라트 쿨링 미스트 울트라쿨&#x27;,jpName:&#x27;KOSÉ エスカラット 超冷感クールミスト ウルトラクール&#x27;,price:&#x27;¥880〜¥1,320&#x27;,priceVerified:false,stores:[&#x27;마츠키요&#x27;,&#x27;돈키호테&#x27;,&#x27;드럭스토어&#x27;,&#x27;이온/마트&#x27;],memo:&#x27;코세 에스카라트 브랜드 여름용 강력 냉감 미스트. 계절 한정 상품 가능성 있음. 재고 확인 필요.&#x27;,needsConfirm:true,image:&#x27;&#x27;,imageSearchQuery:&#x27;エスカラット 超冷感クールミスト&#x27;,imageEmoji:&#x27;❄️&#x27;},
+  {id:&#x27;g2&#x27;,category:&#x27;생활용품/기타&#x27;,name:&#x27;브레스케어 (소림제약)&#x27;,jpName:&#x27;小林製薬 ブレスケア ストロングミント (50粒)&#x27;,price:&#x27;¥440〜¥550&#x27;,priceVerified:true,stores:[&#x27;마츠키요&#x27;,&#x27;편의점&#x27;,&#x27;돈키호테&#x27;,&#x27;드럭스토어&#x27;],memo:&#x27;물과 함께 먹는 캡슐형 구취 케어. 스트롱민트·레몬·피치 등 다양. 「ストロングミント」가 가장 강력. 50粒 기준.&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;小林製薬 ブレスケア ストロングミント&#x27;,imageEmoji:&#x27;💊&#x27;},
+  {id:&#x27;g3&#x27;,category:&#x27;생활용품/기타&#x27;,name:&#x27;화장실 탈취 스프레이&#x27;,jpName:&#x27;小林製薬 トイレその後に 携帯用 23mL&#x27;,price:&#x27;¥242〜¥600&#x27;,priceVerified:true,stores:[&#x27;돈키호테&#x27;,&#x27;마츠키요&#x27;,&#x27;이온/마트&#x27;,&#x27;편의점&#x27;],memo:&#x27;👍 추천:\n①小林製薬「トイレその後に」 휴대용 23mL ¥242~\n②一滴(ひとたらし)系 변기 안에 한 방울 타입\n매장에서 직접 냄새 맡아보고 선택 추천!&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;小林製薬 トイレその後に 携帯用&#x27;,imageEmoji:&#x27;🚽&#x27;},
+  // ── 헤어케어 ──
+  {id:&#x27;h1&#x27;,category:&#x27;헤어케어&#x27;,name:&#x27;우루리스 워터콩크 모이스트 헤어오일&#x27;,jpName:&#x27;ululis ウォーターコンク モイストヘアオイル 100mL&#x27;,price:&#x27;¥1,540 (세금포함)&#x27;,priceVerified:true,stores:[&#x27;마츠키요&#x27;,&#x27;돈키호테&#x27;,&#x27;웰시아&#x27;,&#x27;로프트&#x27;],memo:&#x27;수분 베이스 헤어오일. 90%이상 보습·보수 성분. 아쿠아릴리 향. 블루 보틀 = 모이스트, 핑크 = 컨트롤(웨이브). 100mL 기준.&#x27;,needsConfirm:false,image:&#x27;&#x27;,imageSearchQuery:&#x27;ululis ウォーターコンク モイストヘアオイル&#x27;,imageEmoji:&#x27;💆&#x27;},
+  // ── 보류 ──
+  {id:&#x27;p1&#x27;,category:&#x27;보류&#x27;,name:&#x27;참깨 마늘 소스&#x27;,jpName:&#x27;ごまにんにくソース / 焦がしにんにくのたれ&#x27;,price:&#x27;¥300〜¥600&#x27;,priceVerified:false,stores:[&#x27;이온/마트&#x27;,&#x27;돈키호테&#x27;,&#x27;슈퍼&#x27;],memo:&#x27;보류 아이템. 정확한 제품명 불명확. 마트 조미료 코너에서「ごま」「にんにく」계열 소스 탐색. 에바라(エバラ) 계열 추정.&#x27;,needsConfirm:true,image:&#x27;&#x27;,imageSearchQuery:&#x27;ごまにんにくソース エバラ&#x27;,imageEmoji:&#x27;🧄&#x27;},
+];
+
+const CATEGORIES=[
+  {key:&#x27;화장품&#x27;,icon:&#x27;💄&#x27;,pending:false},
+  {key:&#x27;스킨케어/바디케어&#x27;,icon:&#x27;🧴&#x27;,pending:false},
+  {key:&#x27;헤어케어&#x27;,icon:&#x27;💆&#x27;,pending:false},
+  {key:&#x27;식품/간식&#x27;,icon:&#x27;🍡&#x27;,pending:false},
+  {key:&#x27;생활용품/기타&#x27;,icon:&#x27;🛒&#x27;,pending:false},
+  {key:&#x27;보류&#x27;,icon:&#x27;⏸️&#x27;,pending:true},
+];
+
+let checkedIds=new Set(JSON.parse(localStorage.getItem(&#x27;jp_checked&#x27;)||&#x27;[]&#x27;));
+let collapsedCats=new Set(JSON.parse(localStorage.getItem(&#x27;jp_collapsed&#x27;)||&#x27;[]&#x27;));
+let currentFilter=&#x27;all&#x27;;
+let searchQuery=&#x27;&#x27;;
+
+function saveChecked(){localStorage.setItem(&#x27;jp_checked&#x27;,JSON.stringify([...checkedIds]));}
+function saveCollapsed(){localStorage.setItem(&#x27;jp_collapsed&#x27;,JSON.stringify([...collapsedCats]));}
+
+function renderAll(){
+  const root=document.getElementById(&#x27;categoriesRoot&#x27;);
+  root.innerHTML=&#x27;&#x27;;
+  CATEGORIES.forEach(cat=&gt;{
+    const items=PRODUCTS.filter(p=&gt;p.category===cat.key);
+    if(!items.length)return;
+    const section=document.createElement(&#x27;div&#x27;);
+    section.className=&#x27;category-section&#x27;+(cat.pending?&#x27; pending&#x27;:&#x27;&#x27;)+(collapsedCats.has(cat.key)?&#x27; collapsed&#x27;:&#x27;&#x27;);
+    const checkedInCat=items.filter(p=&gt;checkedIds.has(p.id)).length;
+    section.innerHTML=`&lt;div class=&quot;category-header&quot; data-cat=&quot;${cat.key}&quot;&gt;&lt;div class=&quot;cat-left&quot;&gt;&lt;span class=&quot;cat-icon&quot;&gt;${cat.icon}&lt;/span&gt;&lt;span class=&quot;cat-name&quot;&gt;${cat.key}&lt;/span&gt;&lt;span class=&quot;cat-count&quot;&gt;${checkedInCat}/${items.length}&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;cat-arrow&quot;&gt;▾&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;category-body&quot;&gt;&lt;/div&gt;`;
+    root.appendChild(section);
+    const body=section.querySelector(&#x27;.category-body&#x27;);
+    items.forEach(p=&gt;body.appendChild(renderCard(p)));
+    section.querySelector(&#x27;.category-header&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{
+      if(collapsedCats.has(cat.key))collapsedCats.delete(cat.key);else collapsedCats.add(cat.key);
+      saveCollapsed();section.classList.toggle(&#x27;collapsed&#x27;);
+    });
+  });
+  applyFilter();updateProgress();
+}
+
+function renderCard(p){
+  const div=document.createElement(&#x27;div&#x27;);
+  div.className=&#x27;product-card&#x27;+(checkedIds.has(p.id)?&#x27; checked&#x27;:&#x27;&#x27;);
+  div.dataset.id=p.id;
+  let imgContent;
+  if(p.image){
+    imgContent=`&lt;img src=&quot;${p.image}&quot; alt=&quot;${p.name}&quot; onerror=&quot;this.style.display=&#x27;none&#x27;&quot;&gt;`;
+  } else {
+    imgContent=`&lt;div class=&quot;img-search-btn&quot; title=&quot;상품 이미지&quot;&gt;&lt;span class=&quot;isb-emoji&quot;&gt;${p.imageEmoji}&lt;/span&gt;&lt;span class=&quot;isb-label&quot;&gt;상품&lt;br&gt;이미지&lt;/span&gt;&lt;/div&gt;`;
+  }
+  const priceExtra=p.priceVerified
+    ?&#x27;&lt;span class=&quot;badge-verified&quot;&gt;✓ 실측가&lt;/span&gt;&#x27;
+    :&#x27;&lt;span class=&quot;price-note&quot;&gt;(예상가)&lt;/span&gt;&#x27;;
+  div.innerHTML=`&lt;div class=&quot;card-top&quot;&gt;&lt;div class=&quot;check-area&quot;&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; ${checkedIds.has(p.id)?&#x27;checked&#x27;:&#x27;&#x27;}&gt;&lt;div class=&quot;check-box&quot;&gt;&lt;/div&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;product-img-wrap&quot;&gt;${imgContent}&lt;/div&gt;&lt;div class=&quot;product-info&quot;&gt;&lt;div class=&quot;product-name-row&quot;&gt;&lt;span class=&quot;product-name&quot;&gt;${p.name}&lt;/span&gt;${p.needsConfirm?&#x27;&lt;span class=&quot;badge-confirm&quot;&gt;⚠️ 확인 필요&lt;/span&gt;&#x27;:&#x27;&#x27;}&lt;/div&gt;&lt;div class=&quot;product-jp-name&quot;&gt;${p.jpName}&lt;/div&gt;&lt;div class=&quot;product-price&quot;&gt;${p.price} ${priceExtra}&lt;/div&gt;&lt;div class=&quot;tags&quot;&gt;${p.stores.map(s=&gt;`&lt;span class=&quot;tag store&quot;&gt;📍${s}&lt;/span&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;${p.memo?`&lt;div class=&quot;product-memo&quot;&gt;📝 ${p.memo.replace(/\n/g,&#x27;&lt;br&gt;&#x27;)}&lt;/div&gt;`:&#x27;&#x27;}`;
+  div.querySelector(&#x27;input[type=&quot;checkbox&quot;]&#x27;).addEventListener(&#x27;change&#x27;,e=&gt;{
+    if(e.target.checked)checkedIds.add(p.id);else checkedIds.delete(p.id);
+    saveChecked();div.classList.toggle(&#x27;checked&#x27;,e.target.checked);
+    updateProgress();updateCatCounts();applyFilter();
+  });
+  return div;
+}
+
+function updateProgress(){
+  const total=PRODUCTS.filter(p=&gt;p.category!==&#x27;보류&#x27;).length;
+  const done=PRODUCTS.filter(p=&gt;p.category!==&#x27;보류&#x27;&amp;&amp;checkedIds.has(p.id)).length;
+  document.getElementById(&#x27;progressText&#x27;).textContent=`${done} / ${total} 구매 완료`;
+  document.getElementById(&#x27;progressBar&#x27;).style.width=total?(done/total*100)+&#x27;%&#x27;:&#x27;0%&#x27;;
+}
+
+function updateCatCounts(){
+  CATEGORIES.forEach(cat=&gt;{
+    const items=PRODUCTS.filter(p=&gt;p.category===cat.key);
+    const checked=items.filter(p=&gt;checkedIds.has(p.id)).length;
+    const el=document.querySelector(`[data-cat=&quot;${cat.key}&quot;]`)?.querySelector(&#x27;.cat-count&#x27;);
+    if(el)el.textContent=`${checked}/${items.length}`;
+  });
+}
+
+function applyFilter(){
+  const q=searchQuery.toLowerCase();
+  let anyVisible=false;
+  document.querySelectorAll(&#x27;.product-card&#x27;).forEach(card=&gt;{
+    const p=PRODUCTS.find(x=&gt;x.id===card.dataset.id);
+    if(!p)return;
+    const isChecked=checkedIds.has(p.id);
+    let show=true;
+    if(currentFilter===&#x27;unpurchased&#x27;)show=!isChecked;
+    else if(currentFilter===&#x27;purchased&#x27;)show=isChecked;
+    else if(currentFilter===&#x27;confirm&#x27;)show=p.needsConfirm;
+    if(show&amp;&amp;q){const h=[p.name,p.jpName,p.memo,...p.stores].join(&#x27; &#x27;).toLowerCase();show=h.includes(q);}
+    card.classList.toggle(&#x27;hidden&#x27;,!show);
+    if(show)anyVisible=true;
+  });
+  document.getElementById(&#x27;emptyState&#x27;).classList.toggle(&#x27;visible&#x27;,!anyVisible);
+}
+
+renderAll();
+document.querySelectorAll(&#x27;.filter-btn&#x27;).forEach(btn=&gt;{
+  btn.addEventListener(&#x27;click&#x27;,()=&gt;{
+    document.querySelectorAll(&#x27;.filter-btn&#x27;).forEach(b=&gt;b.classList.remove(&#x27;active&#x27;));
+    btn.classList.add(&#x27;active&#x27;);currentFilter=btn.dataset.filter;applyFilter();
+  });
+});
+document.getElementById(&#x27;searchInput&#x27;).addEventListener(&#x27;input&#x27;,e=&gt;{searchQuery=e.target.value;applyFilter();});
+document.getElementById(&#x27;resetBtn&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{
+  if(confirm(&#x27;구매 체크를 모두 초기화할까요?&#x27;)){checkedIds.clear();saveChecked();renderAll();}
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.switch button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.switch button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
+    document.getElementById(btn.dataset.target).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
